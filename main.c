@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-// Incluimos tu propio archivo de cabecera donde el Integrante 4 declarará las estructuras y constantes.
+//el Integrante 4 declarará las estructuras y constantes.
 #include "artemis.h" 
 // Incluimos las validaciones del Integrante 5.
 #include "validaciones.h" 
@@ -9,7 +9,7 @@ int main() {
     int opcion;
     int simulacionActiva = 1;
 
-    // Aquí puedes instanciar la estructura de la nave (definida en artemis.h por tu compañero)
+    // instanciar la estructura de la nave (definida en artemis.h por otro compañero)
     // struct Nave orion;
     // orion.masa = 26000.0;
     // orion.velocidad = 10900.0;
@@ -27,7 +27,7 @@ int main() {
         printf("5. Generar Reporte Final y Salir\n");
         printf("==================================================\n");
         
-        // Utilizas la función de tu compañero (Integrante 5) para que no se rompa si escriben letras
+        // Se utiliza la función del compañero (Integrante 5) para que no se rompa si escriben letras
         opcion = validarEntradaEntera("Seleccione una opcion (1-5): ", 1, 5);
 
         switch (opcion) {
