@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <math.h>
+#include Artemis.h
+#include validaciones.h
+
 void mision_por_defecto(Mision *m) {
     m->masa = DEF_MASA;
     m->v_tli = DEF_V_TLI;
