@@ -11,11 +11,11 @@ UTN – Facultad Regional Resistencia · Ingeniería en Sistemas de Información
 
 | Integrante | Legajo | Usuario GitHub | Módulo principal |
 
-| [Medina, Agostina Magali] | [27867] | [AgostinaMaagali] | Base del proyecto: Makefile, README, casos de prueba | <br>
-| [completar] | [completar] | [completar] | Menú principal (`main.c`) | <br>
-| [completar] | [completar] | [completar] | Validaciones (`validaciones.c/.h`) | <br>
-| [Vallejos, Priscila Jaquelin] | [30685] | [priscivall07@gmail.com] | Estructuras, constantes y cálculos físicos (`artemis.h`, `artemis.c`) | <br>
-| [completar] | [completar] | [completar] | Simulación por turnos y reporte final (`artemis.c`) | <br>
+| Medina, Agostina Magali | 27867 | AgostinaMaagali | Base del proyecto: Makefile, README, casos de prueba | <br> <br>
+| completar | completar | completar | Menú principal (`main.c`) | <br> <br>
+| completar | completar | completar | Validaciones (`validaciones.c/.h`) | <br> <br>
+| Vallejos, Priscila Jaquelin | 30685 | priscivall07@gmail.com | Estructuras, constantes y cálculos físicos (`artemis.h`, `artemis.c`) | <br> <br>
+| completar | completar | completar | Simulación por turnos y reporte final (`artemis.c`) | <br> <br>
 
 ## b) Escenario Artemis asignado y reglas del juego
 
