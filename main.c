@@ -1,3 +1,39 @@
+/*
+ * main.c - Menus del simulador (presentacion y principal).
+ * Problema 3: Inyeccion Translunar (TLI) - Mision Artemis - 5 pilotos.
+ */
+#include <stdio.h>
+
+#include "artemis.h"
+#include "validaciones.h"
+/* Menu de presentacion. Devuelve 1 si el usuario quiere jugar, 0 si sale. */
+static int menu_presentacion(void)
+{
+    int op = -1;
+
+    while (op != 0 && op != 1) {
+        mostrar_logo();
+        printf("  1. Comenzar\n");
+        printf("  2. Historia de la mision\n");
+        printf("  3. Reglas del juego\n");
+        printf("  4. Creditos\n");
+        printf("  0. Salir\n");
+        if (leer_entero("Seleccione una opcion (0-4): ", 0, 4, &op) != ENTRADA_OK) {
+            return 0;
+        }
+        if (op == 2) {
+            mostrar_historia();
+            pausar();
+        } else if (op == 3) {
+            mostrar_reglas();
+            pausar();
+        } else if (op == 4) {
+            mostrar_creditos();
+            pausar();
+        }
+    }
+    return op;
+}
 static void mostrar_menu_principal(int hay_reporte)
 {
     printf("\n");
