@@ -1,3 +1,6 @@
+#ifndef Artemis.h
+#define Artemis.h
+
 // Constantes físicas
 
 #define G_CONST  6.674e-11
@@ -49,3 +52,5 @@ void mostrar_analisis_a(const Mision *m);
 void mostrar_analisis_b(const Mision *m);
 void mostrar_analisis_c(const Mision *m);
 void mostrar_analisis_d(const Mision *m);
+
+#endif
