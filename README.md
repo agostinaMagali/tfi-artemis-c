@@ -3,7 +3,6 @@
 Trabajo Práctico Integrador Final · Algoritmos y Estructuras de Datos
 UTN – Facultad Regional Resistencia · Ingeniería en Sistemas de Información · Lenguaje C
 
-- **Repositorio:** [completar enlace]
 - **Video de presentación:** [completar enlace]
 
 ## a) Integrantes y comisión
@@ -12,10 +11,10 @@ UTN – Facultad Regional Resistencia · Ingeniería en Sistemas de Información
 
 | Integrante | Legajo | Usuario GitHub | Módulo principal |
 
-| [Medina, Agostina Magali] | [27867] | [AgostinaMaagali] | Base del proyecto: Makefile, README, casos de prueba |
+| [Medina, Agostina Magali] | [27867] | [AgostinaMaagali] | Base del proyecto: Makefile, README, casos de prueba | <br>
 | [completar] | [completar] | [completar] | Menú principal (`main.c`) |
 | [completar] | [completar] | [completar] | Validaciones (`validaciones.c/.h`) |
-| [completar] | [completar] | [completar] | Estructuras, constantes y cálculos físicos (`artemis.h`, `artemis.c`) |
+| [Vallejos, Priscila Jaquelin] | [completar] | [completar] | Estructuras, constantes y cálculos físicos (`artemis.h`, `artemis.c`) |
 | [completar] | [completar] | [completar] | Simulación por turnos y reporte final (`artemis.c`) |
 
 ## b) Escenario Artemis asignado y reglas del juego
