@@ -4,9 +4,7 @@
 #include "artemis.h"
 #include "validaciones.h"
 
-/* ====================================================================== */
-/*                          CALCULOS FISICOS                              */
-/* ====================================================================== */
+//CALCULOS FISICOS             
 
 void mision_por_defecto(Mision *m)
 {
@@ -86,10 +84,8 @@ double velocidad_minima_tli(const Mision* m)
 
     return sqrt(2.0 * w);
 }
-/* ====================================================================== */
-/*                       SIMULACION (VELOCITY-VERLET)                     */
-/* ====================================================================== */
 
+//SIMULACION (VELOCITY-VERLET)      
 EventoSim avanzar_turno(const Mision *m, Punto *p, double duracion, double *r_max)
 {
     double d = m->dist_tierra_luna;
@@ -98,7 +94,7 @@ EventoSim avanzar_turno(const Mision *m, Punto *p, double duracion, double *r_ma
     double h, a0, a1;
 
     while (restante > 0.0) {
-        h = FACTOR_PASO * p->r / (fabs(p->v) + 10.0);   /* paso adaptativo */
+        h = FACTOR_PASO * p->r / (fabs(p->v) + 10.0);   //paso adaptativo
         if (h > PASO_INTEGRACION) {
             h = PASO_INTEGRACION;
         }
@@ -176,7 +172,7 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
         mostrar_telemetria(m, &p);
         if (leer_entero("\nHoras a simular en este turno (1-48, 0 = abortar): ",
                         0, 48, &horas) != ENTRADA_OK) {
-            horas = 0;               /* EOF: se aborta de forma ordenada */
+            horas = 0;               //EOF: se aborta de forma ordenada
         }
         if (horas == 0) {
             rep->resultado = MISION_ABORTADA;
@@ -201,10 +197,8 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
     mostrar_reporte(m, rep);
 }
 
-/* ====================================================================== */
-/*                              PRESENTACION                              */
-/* ====================================================================== */
 
+//PRESENTACION                            
 void mostrar_banner(void)
 {
     mostrar_linea('=', 64);
