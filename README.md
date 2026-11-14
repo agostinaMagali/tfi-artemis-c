@@ -10,7 +10,7 @@
 | [completar] | [completar] | [completar] |
 | [completar] | [completar] | [completar] |
 
-**Comisión:** [completar] · **Repositorio:** [completar enlace]
+**Comisión:** [k1.4] · **Repositorio:** [completar enlace]
 
 ## b) Escenario Artemis asignado y reglas del juego
 
