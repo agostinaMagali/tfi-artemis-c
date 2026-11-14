@@ -8,7 +8,7 @@
 |------------|--------|---------------------------|
 | Medina, Agostina Magali | 27867 | Base del proyecto: Makefile, .gitignore, README.md, casos de prueba (tests/) |
 | Hamabata, Erika Arianna| 28554 | Validaciones c y h |
-| Vallejos, Priscila Jaquelin | 30685 | Artemis c y h |
+| Vallejos, Priscila Jaquelin | 30685 | Artemis c|
 | Fretes, Lara | 28729 | artemis.h|
 | [completar] | [completar] | [completar] |
 
