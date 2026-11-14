@@ -6,11 +6,13 @@
 
 | Integrante | Legajo | Rol / módulos principales |
 |------------|--------|---------------------------|
-| [Medina, Agostina Magli] | [27867] | [Makefile, .gitignore, README.md, casos de prueba (tests/) y coordinación del video] |
+| Medina, Agostina Magali | 27867 | Base del proyecto: Makefile, .gitignore, README.md, casos de prueba (tests/) |
+| [completar] | [completar] | [completar] |
+| [completar] | [completar] | [completar] |
 | [completar] | [completar] | [completar] |
 | [completar] | [completar] | [completar] |
 
-**Comisión:** [k1.4] · **Repositorio:** [https://github.com/agostinaMagali/tfi-artemis-c]
+**Comisión:** [D] · **Repositorio:** [cargar]
 
 ## b) Escenario Artemis asignado y reglas del juego
 
@@ -42,7 +44,7 @@ flowchart TD
 |---------|-----------------|
 | `main.c` | Solo `main()` y menús (presentación, principal y configuración) |
 | `artemis.h` | Constantes `#define`, `struct Mision`, `Punto`, `Reporte`, enums y prototipos |
-| `artemis.c` | Física, integración numérica (Velocity-Verlet), ciclo por turnos, logo, reportes |
+| `artemis.c` | Física, integración numérica (Velocity-Verlet), ciclo por turnos, logos de presentación y reportes |
 | `validaciones.h/.c` | `leer_entero`, `leer_doble`, `leer_si_no` (basados en `fgets` + `strtol`/`strtod`) y mensajes de error |
 
 **Modelo físico.** La nave se mueve sobre la recta Tierra–Luna (1D) con la Luna fija a distancia D:
@@ -55,6 +57,15 @@ flowchart TD
 **Requisitos técnicos cubiertos:** estructuras condicionales y repetitivas, modularización, arreglos y punteros
 (`Reporte.historial[]`, paso de `struct` por puntero), validaciones exhaustivas (letras, vacíos, rangos, `nan`/`inf`,
 líneas largas y fin de entrada) y mensajes de error uniformes.
+
+## Personalización rápida
+
+| Qué cambiar | Dónde |
+|-------------|-------|
+| Logo de la pantalla de inicio (7 diseños pedidos a claude, o 0 = al azar) | `artemis.h` → `#define LOGO_ELEGIDO` |
+| Nombres de los integrantes en "Créditos" | `artemis.c` → `mostrar_creditos()` |
+| Valores por defecto del enunciado | `artemis.h` → `DEF_MASA`, `DEF_V_TLI`, `DEF_ALTURA`, `DEF_DIST_TL` |
+| Rangos permitidos al ingresar datos | `artemis.h` → `MIN_*` / `MAX_*` (y los textos de las preguntas en `main.c`) |
 
 ## d) Compilación y ejecución
 
@@ -70,11 +81,12 @@ Si los acentos se ven mal en Windows, ejecutar `chcp 65001`.
 
 ## e) Registro de uso de Inteligencia Artificial
 
+> **Completar y ajustar por el equipo.** Este registro debe reflejar lo que el grupo realmente hizo.
 
 | Herramienta | Tarea | Prompt / consulta (resumen) | Cómo se validó / adaptó |
 |-------------|-------|------------------------------|--------------------------|
-| Claude (Anthropic) | Resolución analítica de los incisos a–d | Se pasó el enunciado del Problema 3 y se pidió la resolución | Se revisaron los procedimientos y resultados obtenidos, verificando que los cálculos y razonamientos fueran correctos. |
-| Claude (Anthropic) | Esqueleto modular del proyecto en C | Se pidió preparar los módulos, el Makefile y el README | Se revisó la estructura de los módulos, la organización de los archivos y la configuración del Makefile y README, adaptándolos a los requisitos del proyecto. |
+| Claude (Anthropic) | Resolución analítica de los incisos a–d | Se pasó el enunciado del Problema 3 y se pidió la resolución base para guia | [Se valido las funciones del logo, la resolucion de problema con los errores, luego se edito las consignas para adaptar mejor al igual que los credtios, tambien simplificamos el artemis.c para hacerlo menos complejo a lo que la IA nos brindaba ya que nos daba cosas avanzadas] |
+| Claude (Anthropic) | Esqueleto modular del proyecto en C | Se pidió preparar los módulos, el Makefile y el README | [Esta fue una funcion que nos gusto para poder ejecutar con .exe y por terminal] |
 
 ## Casos de prueba sugeridos
 
@@ -87,4 +99,3 @@ Si los acentos se ven mal en Windows, ejecutar `chcp 65001`.
 | Coma decimal | `10900,5` | Se acepta |
 | Abortar | `0` en un turno | "MISIÓN ABORTADA" y reporte parcial |
 | Fin de entrada (Ctrl+D) | — | Cierre ordenado sin bucle infinito |
-
