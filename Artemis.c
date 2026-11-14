@@ -1,10 +1,10 @@
+
 #include <math.h>
 #include <stdio.h>
 
 #include "artemis.h"
 #include "validaciones.h"
 
-//CALCULOS FISICOS             
 
 void mision_por_defecto(Mision *m)
 {
@@ -27,17 +27,7 @@ double energia_cinetica(double masa, double v)
 /* Energia potencial por unidad de masa (Tierra + Luna) en la posicion r */
 double potencial_especifico(double r, double dist_tl)
 {
-    double dl = dist_tl - r;
-
-    if (r <= RADIO_TIERRA) {
-        r = RADIO_TIERRA;
-    }
-
-    if (fabs(dl) < 1.0) {
-        dl = (dl >= 0.0) ? 1.0 : -1.0;
-    }
-
-    return -GM_TIERRA / r - GM_LUNA / dl;
+    return -GM_TIERRA / r - GM_LUNA / (dist_tl - r);
 }
 
 /* Aceleracion neta sobre la recta Tierra-Luna (positiva = hacia la Luna) */
@@ -45,16 +35,7 @@ double aceleracion_radial(double r, double dist_tl)
 {
     double dl = dist_tl - r;
 
-    if (r <= RADIO_TIERRA) {
-        r = RADIO_TIERRA;
-    }
-
-    if (fabs(dl) < 1.0) {
-        dl = (dl >= 0.0) ? 1.0 : -1.0;
-    }
-
-    return -GM_TIERRA / (r * r)
-        + GM_LUNA / (dl * dl);
+    return -GM_TIERRA / (r * r) + GM_LUNA / (dl * dl);
 }
 
 /* Punto donde las atracciones de Tierra y Luna se igualan */
@@ -63,29 +44,20 @@ double radio_equilibrio(double dist_tl)
     return dist_tl / (1.0 + sqrt(MASA_LUNA / MASA_TIERRA));
 }
 
-/* Modelo completo: Tierra + Luna (Wext/m = U(r_eq) - U(r1)) */
-double trabajo_por_masa_total(const Mision* m)
+/* Velocidad minima para llegar al equilibrio: 1/2 v^2 = U(r_eq) - U(r1) */
+double velocidad_minima_tli(const Mision *m)
 {
     double d = m->dist_tierra_luna;
-    double r_eq = radio_equilibrio(d);
-    double r1 = radio_orbital(m);
-
-    return potencial_especifico(r_eq, d)
-        - potencial_especifico(r1, d);
-}
-
-double velocidad_minima_tli(const Mision* m)
-{
-    double w = trabajo_por_masa_total(m);
-
-    if (w <= 0.0) {
-        return 0.0;
-    }
+    double w = potencial_especifico(radio_equilibrio(d), d)
+             - potencial_especifico(radio_orbital(m), d);
 
     return sqrt(2.0 * w);
 }
 
-//SIMULACION (VELOCITY-VERLET)      
+
+
+/* Avanza la nave 'duracion' segundos. Se detiene si llega al equilibrio
+   o si alcanza el apogeo (velocidad nula). */
 EventoSim avanzar_turno(const Mision *m, Punto *p, double duracion, double *r_max)
 {
     double d = m->dist_tierra_luna;
@@ -94,16 +66,7 @@ EventoSim avanzar_turno(const Mision *m, Punto *p, double duracion, double *r_ma
     double h, a0, a1;
 
     while (restante > 0.0) {
-        h = FACTOR_PASO * p->r / (fabs(p->v) + 10.0);   //paso adaptativo
-        if (h > PASO_INTEGRACION) {
-            h = PASO_INTEGRACION;
-        }
-        if (h < PASO_MINIMO) {
-            h = PASO_MINIMO;
-        }
-        if (h > restante) {
-            h = restante;
-        }
+        h = (restante < PASO) ? restante : PASO;
         a0 = aceleracion_radial(p->r, d);
         p->r += p->v * h + 0.5 * a0 * h * h;
         a1 = aceleracion_radial(p->r, d);
@@ -142,7 +105,6 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
     Punto p;
     EventoSim ev;
     int horas;
-    char texto[160];
 
     p.t = 0.0;
     p.r = radio_orbital(m);
@@ -161,7 +123,7 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
     mostrar_mision(m);
     printf("  Punto de equilibrio Tierra-Luna: %.1f km\n",
            radio_equilibrio(m->dist_tierra_luna) / 1000.0);
-    printf("  Objetivo: que la nave llegue al punto de equilibrio por inercia.\n");
+    printf("  Objetivo: llegar al punto de equilibrio solo por inercia.\n");
     printf("  En cada turno usted elige cuantas horas avanza la simulacion.\n");
 
     while (rep->resultado == MISION_EN_CURSO) {
@@ -171,11 +133,8 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
         }
         mostrar_telemetria(m, &p);
         if (leer_entero("\nHoras a simular en este turno (1-48, 0 = abortar): ",
-                        0, 48, &horas) != ENTRADA_OK) {
-            horas = 0;               //EOF: se aborta de forma ordenada
-        }
-        if (horas == 0) {
-            rep->resultado = MISION_ABORTADA;
+                        0, 48, &horas) != ENTRADA_OK || horas == 0) {
+            rep->resultado = MISION_ABORTADA;    /* 0 o fin de entrada */
             break;
         }
 
@@ -186,9 +145,6 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
             rep->resultado = MISION_EXITO;
         } else if (ev == SIM_APOGEO) {
             rep->resultado = MISION_NO_LLEGA;
-        } else {
-            snprintf(texto, sizeof texto, "Turno %d completado.", rep->cantidad - 1);
-            mostrar_aviso(texto);
         }
     }
 
@@ -198,23 +154,77 @@ void ejecutar_simulacion(const Mision *m, Reporte *rep)
 }
 
 
-//PRESENTACION                            
-void mostrar_banner(void)
+
+void mostrar_logo(void)
 {
-    mostrar_linea('=', 64);
-    printf("   MISION ARTEMIS - SIMULADOR DE INYECCION TRANSLUNAR (TLI)\n");
-    printf("   Orion en trayectoria libre | 1.a Ley de Newton y Energia\n");
-    mostrar_linea('=', 64);
+    static const char *arte[5] = {
+        "      _    ____ _____ _____ __  __ ___ ____",
+        "     / \\  |  _ \\_   _| ____|  \\/  |_ _/ ___|",
+        "    / _ \\ | |_) || | |  _| | |\\/| || |\\___ \\",
+        "   / ___ \\|  _ < | | | |___| |  | || | ___) |",
+        "  /_/   \\_\\_| \\_\\|_| |_____|_|  |_|___|____/"
+    };
+    static const char *insignia[5] = {
+        ".-----------------.",
+        "|   K E R N E L   |",
+        "|   P A N I C !   |",
+        "|     D-32        |",
+        "'-----------------'"
+    };
+    int i;
+
+    printf("\n");
+    mostrar_linea('=', 72);
+    for (i = 0; i < 5; i++) {
+        printf("%-50s %s\n", arte[i], insignia[i]);
+    }
+    printf("\n");
+    printf("        SIMULADOR DE INYECCION TRANSLUNAR (TLI)\n");
+    printf("      Orion en trayectoria libre | by KERNEL PANIC\n");
+    mostrar_linea('=', 72);
+}
+
+void mostrar_historia(void)
+{
+    printf("\n  --- LA MISION ---\n");
+    printf("  Orion (26.000 kg) esta en orbita terrestre baja. La etapa ICPS\n");
+    printf("  ejecuta la Inyeccion Translunar (TLI) y se desacopla: desde ese\n");
+    printf("  instante los motores estan apagados y la nave viaja por inercia\n");
+    printf("  (1.a Ley de Newton), frenada solo por la gravedad terrestre.\n\n");
+    printf("  Si la energia alcanza, Orion llega al punto de equilibrio\n");
+    printf("  gravitatorio Tierra-Luna. Si no, llega a un apogeo y vuelve.\n");
+}
+
+void mostrar_reglas(void)
+{
+    printf("\n  --- REGLAS DEL JUEGO ---\n");
+    printf("  1. Configure la mision (o use los valores del enunciado).\n");
+    printf("  2. Inicie la simulacion. Se juega por turnos: en cada uno elige\n");
+    printf("     cuantas horas avanza la nave (1 a 48) o aborta (0).\n");
+    printf("  3. Gana si la nave llega al punto de equilibrio Tierra-Luna.\n");
+    printf("  4. Al terminar se muestra un reporte de desempeno.\n");
+}
+
+void mostrar_creditos(void)
+{
+    printf("\n  --- CREDITOS ---\n");
+    printf("  Algoritmos y Estructuras de Datos - UTN FRRe\n");
+    printf("  Ingenieria en Sistemas de Informacion\n");
+    printf("  Equipo: KERNEL PANIC\n");
+    printf("  Integrantes: [Gonzalez Lionel]\n");
+    printf("             : [Vallejos Priscila]\n");
+    printf("             : [Agostina Medina]\n");
+    printf("             : [Hanabata Erika]\n");
+    printf("             : [Fretes Lara]\n");
+    printf("  Comision: [D]\n");
 }
 
 void mostrar_mision(const Mision *m)
 {
     printf("\n  Parametros de la mision:\n");
     printf("    Masa de Orion .............. %.1f kg\n", m->masa);
-    printf("    Velocidad de inyeccion ..... %.1f m/s (%.3f km/s)\n",
-           m->v_tli, m->v_tli / 1000.0);
-    printf("    Altura de la orbita LEO .... %.1f m (%.1f km)\n",
-           m->altura_leo, m->altura_leo / 1000.0);
+    printf("    Velocidad de inyeccion ..... %.1f m/s\n", m->v_tli);
+    printf("    Altura de la orbita LEO .... %.1f km\n", m->altura_leo / 1000.0);
     printf("    Distancia Tierra-Luna ...... %.1f km\n",
            m->dist_tierra_luna / 1000.0);
 }
@@ -222,7 +232,6 @@ void mostrar_mision(const Mision *m)
 void mostrar_telemetria(const Mision *m, const Punto *p)
 {
     double d = m->dist_tierra_luna;
-    double a = aceleracion_radial(p->r, d);
 
     printf("\n");
     mostrar_linea('-', 64);
@@ -232,7 +241,8 @@ void mostrar_telemetria(const Mision *m, const Punto *p)
     printf("  Distancia al centro de la Tierra : %.1f km\n", p->r / 1000.0);
     printf("  Distancia a la Luna ............. %.1f km\n", (d - p->r) / 1000.0);
     printf("  Velocidad ....................... %.2f m/s\n", p->v);
-    printf("  Aceleracion neta (gravedad) ..... %.5f m/s^2\n", a);
+    printf("  Aceleracion neta (gravedad) ..... %.5f m/s^2\n",
+           aceleracion_radial(p->r, d));
     printf("  Energia cinetica ................ %.4e J\n",
            energia_cinetica(m->masa, p->v));
     printf("  Energia mecanica especifica ..... %.4e J/kg\n",
@@ -246,13 +256,12 @@ void mostrar_reporte(const Mision *m, const Reporte *rep)
     double r_eq = radio_equilibrio(m->dist_tierra_luna);
     double progreso = (rep->r_max - r1) / (r_eq - r1) * 100.0;
     double v_min = velocidad_minima_tli(m);
-    double deriva;
+    double deriva = fabs(rep->em_final - rep->em_inicial) / fabs(rep->em_inicial);
     int i;
 
     if (progreso > 100.0) {
         progreso = 100.0;
     }
-    deriva = fabs(rep->em_final - rep->em_inicial) / fabs(rep->em_inicial);
 
     printf("\n");
     mostrar_linea('=', 64);
@@ -264,13 +273,13 @@ void mostrar_reporte(const Mision *m, const Reporte *rep)
         printf("MISION CUMPLIDA - Orion alcanza el punto de equilibrio.\n");
         break;
     case MISION_NO_LLEGA:
-        printf("INSUFICIENTE - Orion alcanza su apogeo y regresa a la Tierra.\n");
+        printf("INSUFICIENTE - Orion alcanza y regresa a la Tierra.\n");
         break;
     case MISION_ABORTADA:
         printf("MISION ABORTADA por el operador.\n");
         break;
     case MISION_TIEMPO_AGOTADO:
-        printf("TIEMPO AGOTADO (maximo de %d turnos).\n", MAX_TURNOS);
+        printf("TIEMPO AGOTADO (maximo de turnos).\n", MAX_TURNOS);
         break;
     default:
         printf("EN CURSO\n");
@@ -292,6 +301,5 @@ void mostrar_reporte(const Mision *m, const Reporte *rep)
     if (m->v_tli < v_min) {
         printf("  Delta-v faltante ............... %.2f m/s\n", v_min - m->v_tli);
     }
-    printf("  Verificacion numerica: la energia mecanica se conservo con una\n");
-    printf("  deriva relativa de %.2e.\n", deriva);
+    printf("  Verificacion: la energia mecanica se conservo (deriva %.1e).\n", deriva);
 }
