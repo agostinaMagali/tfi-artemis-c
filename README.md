@@ -10,8 +10,8 @@ UTN – Facultad Regional Resistencia · Ingeniería en Sistemas de Información
 **Comisión:** k1.4
 
 | Medina, Agostina Magali | 27867 | AgostinaMaagali | Base del proyecto: Makefile, README, casos de prueba | <br> <br>
-| Hamabata, Erika Arianna | 28554 | erikah2004 | Menú principal (`main.c`) | <br> <br>
-| completar | completar | completar | Validaciones (`validaciones.c/.h`) | <br> <br>
+| completar | completar | completar | Menú principal (`main.c`) | <br> <br>
+| Hamabata, Erika Arianna | 28554 | erikah2004 | Validaciones (`validaciones.c/.h`) | <br> <br>
 | Vallejos, Priscila Jaquelin | 30685 | priscivallejos | Estructuras, constantes y cálculos físicos (`artemis.h`, `artemis.c`) | <br> <br>
 | completar | completar | completar | Simulación por turnos y reporte final (`artemis.c`) | <br> <br>
 
