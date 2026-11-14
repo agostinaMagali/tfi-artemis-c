@@ -12,7 +12,7 @@
 | [completar] | [completar] | [completar] |
 | [completar] | [completar] | [completar] |
 
-**Comisión:** [D] · **Repositorio:** [cargar]
+**Comisión:** [D] · **Repositorio:** [https://github.com/agostinaMagali/tfi-artemis-c/tree/main]
 
 ## b) Escenario Artemis asignado y reglas del juego
 
