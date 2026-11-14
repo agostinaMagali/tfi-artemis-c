@@ -13,7 +13,7 @@
 | [completar] | [completar] | [completar] |
 
 **Comisión:** [D] · **Repositorio:** [https://github.com/agostinaMagali/tfi-artemis-c/tree/main]
-
+**VIDEO (EXPLICACION Y MUESTRA DE FUNCIONAMIENTO):** [CARGAR]
 ## b) Escenario Artemis asignado y reglas del juego
 
 **Situación:** estando en órbita baja (LEO), la etapa ICPS ejecuta la Inyección Translunar (TLI) y la nave Orion
