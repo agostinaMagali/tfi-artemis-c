@@ -73,8 +73,8 @@ Si los acentos se ven mal en Windows, ejecutar `chcp 65001`.
 
 | Herramienta | Tarea | Prompt / consulta (resumen) | Cómo se validó / adaptó |
 |-------------|-------|------------------------------|--------------------------|
-| Claude (Anthropic) | Resolución analítica de los incisos a–d | Se pasó el enunciado del Problema 3 y se pidió la resolución | [completar] |
-| Claude (Anthropic) | Esqueleto modular del proyecto en C | Se pidió preparar los módulos, el Makefile y el README | [completar] |
+| Claude (Anthropic) | Resolución analítica de los incisos a–d | Se pasó el enunciado del Problema 3 y se pidió la resolución | Se revisaron los procedimientos y resultados obtenidos, verificando que los cálculos y razonamientos fueran correctos. |
+| Claude (Anthropic) | Esqueleto modular del proyecto en C | Se pidió preparar los módulos, el Makefile y el README | Se revisó la estructura de los módulos, la organización de los archivos y la configuración del Makefile y README, adaptándolos a los requisitos del proyecto. |
 
 ## Casos de prueba sugeridos
 
