@@ -70,7 +70,6 @@ Si los acentos se ven mal en Windows, ejecutar `chcp 65001`.
 
 ## e) Registro de uso de Inteligencia Artificial
 
-> **Completar y ajustar por el equipo.** Este registro debe reflejar lo que el grupo realmente hizo.
 
 | Herramienta | Tarea | Prompt / consulta (resumen) | Cómo se validó / adaptó |
 |-------------|-------|------------------------------|--------------------------|
