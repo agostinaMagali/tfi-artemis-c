@@ -10,10 +10,10 @@
 | Hamabata, Erika Arianna| 28554 | Validaciones c y h |
 | Vallejos, Priscila Jaquelin | 30685 | Artemis c|
 | Fretes, Lara | 28729 | artemis.h|
-| Gonzalez Lionel| 22403 | Main.c y ejecutar el programa |
+| Gonzalez Lionel| 22403 | Main.c - ejecutar el programa - creacion del video|
 
 **Comisión:** [D] · **Repositorio:** [https://github.com/agostinaMagali/tfi-artemis-c/tree/main]
-**VIDEO (EXPLICACION Y MUESTRA DE FUNCIONAMIENTO):** [CARGAR]
+**VIDEO (EXPLICACION Y MUESTRA DE FUNCIONAMIENTO):** (https://drive.google.com/file/d/1eV7DurUNYg84uxWu60JdiuZ-PWefF9S5/view?usp=sharing)]
 ## b) Escenario Artemis asignado y reglas del juego
 
 **Situación:** estando en órbita baja (LEO), la etapa ICPS ejecuta la Inyección Translunar (TLI) y la nave Orion
