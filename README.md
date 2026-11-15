@@ -10,7 +10,7 @@
 | Hamabata, Erika Arianna| 28554 | Validaciones c y h |
 | Vallejos, Priscila Jaquelin | 30685 | Artemis c|
 | Fretes, Lara | 28729 | artemis.h|
-| [completar] | [completar] | [completar] |
+| Gonzalez Lionel| 22403 | Main.c y ejecutar el programa |
 
 **Comisión:** [D] · **Repositorio:** [https://github.com/agostinaMagali/tfi-artemis-c/tree/main]
 **VIDEO (EXPLICACION Y MUESTRA DE FUNCIONAMIENTO):** [CARGAR]
